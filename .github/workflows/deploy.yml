@@ -49,3 +49,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+
+      - name: Set environment variables
+        run: |
+          echo "LOCAL_URL=${{ secrets.LOCAL_URL }}" >> $GITHUB_ENV
+          echo "PROD_URL=${{ secrets.PROD_URL }}" >> $GITHUB_ENV

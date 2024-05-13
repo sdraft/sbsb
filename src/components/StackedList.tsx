@@ -1,46 +1,51 @@
 import { useState, useEffect, useRef } from 'react';
 
 interface Item {
-    url: string,
-    code: string
-    description: string,
-    date: Date
+    url: string;
+    code: string;
+    description: string;
+    date: string; 
 }
 
 const StackedList: React.FC = () => {
+  const [items, setItems] = useState<Item[]>([]);
+  const [displayItems, setDisplayItems] = useState<Item[]>([]);
+  const [numItems, setNumItems] = useState(3);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
-    const [items, setItems] = useState<Item[]>([]);
-    const [displayItems, setDisplayItems] = useState<Item[]>([]);
-    const [numItems, setNumItems] = useState(3);
-    const sentinelRef = useRef(null);
-
-     // Récupérer les données du fichier JSON
-    useEffect(() => {
-        fetch('/links.json')
-            .then(response => response.json())
-            .then(data => {
-                setItems(data);
-                setDisplayItems(data.slice(0, 3));
-            });
-    }, []);
-  
-    useEffect(() => {
-      const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          setNumItems(prevNumItems => prevNumItems + 3);
-        }
-      });
-  
-      if (sentinelRef.current) {
-        observer.observe(sentinelRef.current);
+  useEffect(() => {
+    const fetchLinks = async () => {
+      try {
+        const response = await fetch('links.json');
+        const data = await response.json();
+        setItems(data);
+        setDisplayItems(data.slice(0, 3));
+      } catch (error) {
+        console.error('Error fetching links:', error);
       }
-  
-      return () => observer.disconnect();
-    }, []);
-  
-    useEffect(() => {
-      setDisplayItems(items.slice(0, numItems));
-    }, [numItems]);
+    };
+
+    fetchLinks();
+  }, []);
+
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        setNumItems(prevNumItems => prevNumItems + 3);
+      }
+    });
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    setDisplayItems(items.slice(0, numItems));
+  }, [numItems, items]);
   
     return (
         <section className="bg-smalt-100 dark:bg-smalt-800 py-12 md:py-16">
@@ -54,7 +59,7 @@ const StackedList: React.FC = () => {
                             {displayItems.map((item, index) => (
                                 <div key={index}>
                                     <div className="flex items-center justify-between">
-                                        <a href={`http://localhost:5173/${item.code}`} onClick={(e) => {
+                                        <a href={`${import.meta.env.PROD_URL}/${item.code}`} onClick={(e) => {
                                             e.preventDefault();
                                             const url = item.url.startsWith('http') ? item.url : `http://${item.url}`;
                                             window.location.href = url;
