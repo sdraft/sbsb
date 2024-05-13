@@ -8,45 +8,47 @@ interface Item {
 }
 
 const StackedList: React.FC = () => {
-  const [items, setItems] = useState<Item[]>([]);
-  const [displayItems, setDisplayItems] = useState<Item[]>([]);
-  const [numItems, setNumItems] = useState(3);
-  const sentinelRef = useRef<HTMLDivElement>(null);
+    const [items, setItems] = useState<Item[]>([]);
+    const [displayItems, setDisplayItems] = useState<Item[]>([]);
+    const [numItems, setNumItems] = useState(3);
+    const sentinelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const fetchLinks = async () => {
-      try {
-        const response = await fetch('links.json');
-        const data = await response.json();
-        setItems(data);
-        setDisplayItems(data.slice(0, 3));
-      } catch (error) {
-        console.error('Error fetching links:', error);
-      }
+    useEffect(() => {
+        const fetchLinks = async () => {
+            try {
+                const response = await fetch('links.json');
+                const data = await response.json();
+                setItems(data);
+                setDisplayItems(data.slice(0, 3));
+            } catch (error) {
+                console.error('Error fetching links:', error);
+            }
     };
 
     fetchLinks();
-  }, []);
+    }, []);
 
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        setNumItems(prevNumItems => prevNumItems + 3);
-      }
-    });
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                setNumItems(prevNumItems => prevNumItems + 3);
+            }
+        });
 
-    if (sentinelRef.current) {
-      observer.observe(sentinelRef.current);
-    }
+        if (sentinelRef.current) {
+            observer.observe(sentinelRef.current);
+        }
 
     return () => observer.disconnect();
-  }, []);
+    }, []);
 
-  useEffect(() => {
-    setDisplayItems(items.slice(0, numItems));
-  }, [numItems, items]);
+    useEffect(() => {
+        setDisplayItems(items.slice(0, numItems));
+    }, [numItems, items]);
   
+    const baseUrl = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_API_URL : import.meta.env.VITE_DEV_API_URL;
+    
     return (
         <section className="bg-smalt-100 dark:bg-smalt-800 py-12 md:py-16">
             <div className="container mx-auto px-4 md:px-6">
@@ -59,7 +61,7 @@ const StackedList: React.FC = () => {
                             {displayItems.map((item, index) => (
                                 <div key={index}>
                                     <div className="flex items-center justify-between">
-                                        <a href={`${import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_API_URL : import.meta.env.VITE_DEV_API_URL}/${item.code}`} onClick={(e) => {
+                                        <a href={`${baseUrl}/${item.code}`} onClick={(e) => {
                                             e.preventDefault();
                                             const url = item.url.startsWith('http') ? item.url : `http://${item.url}`;
                                             window.location.href = url;
