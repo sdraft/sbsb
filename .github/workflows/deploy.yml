@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
-     - name: Build project
+      - name: Build project
         env:
           VITE_PROD_API_URL: ${{ secrets.VITE_PROD_API_URL }}
         run: npm run build
