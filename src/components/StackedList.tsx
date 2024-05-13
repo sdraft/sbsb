@@ -46,9 +46,7 @@ const StackedList: React.FC = () => {
     useEffect(() => {
         setDisplayItems(items.slice(0, numItems));
     }, [numItems, items]);
-  
-    const baseUrl = import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_API_URL : import.meta.env.VITE_DEV_API_URL;
-    
+      
     return (
         <section className="bg-smalt-100 dark:bg-smalt-800 py-12 md:py-16">
             <div className="container mx-auto px-4 md:px-6">
@@ -61,7 +59,7 @@ const StackedList: React.FC = () => {
                             {displayItems.map((item, index) => (
                                 <div key={index}>
                                     <div className="flex items-center justify-between">
-                                        <a href={`${baseUrl}/${item.code}`} onClick={(e) => {
+                                        <a href={`${import.meta.env.VITE_APP_URL}/${item.code}`} onClick={(e) => {
                                             e.preventDefault();
                                             const url = item.url.startsWith('http') ? item.url : `http://${item.url}`;
                                             window.location.href = url;
