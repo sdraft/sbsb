@@ -52,5 +52,5 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "LOCAL_URL=${{ secrets.LOCAL_URL }}" >> $GITHUB_ENV
-          echo "PROD_URL=${{ secrets.PROD_URL }}" >> $GITHUB_ENV
+          echo "VITE_DEV_API_URL=${{ secrets.VITE_DEV_API_URL }}" >> $GITHUB_ENV
+          echo "VITE_PROD_API_URL=${{ secrets.VITE_PROD_API_URL }}" >> $GITHUB_ENV

@@ -59,7 +59,7 @@ const StackedList: React.FC = () => {
                             {displayItems.map((item, index) => (
                                 <div key={index}>
                                     <div className="flex items-center justify-between">
-                                        <a href={`${import.meta.env.PROD_URL}/${item.code}`} onClick={(e) => {
+                                        <a href={`${import.meta.env.MODE === 'production' ? import.meta.env.VITE_PROD_API_URL : import.meta.env.VITE_DEV_API_URL}/${item.code}`} onClick={(e) => {
                                             e.preventDefault();
                                             const url = item.url.startsWith('http') ? item.url : `http://${item.url}`;
                                             window.location.href = url;
