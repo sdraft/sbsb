@@ -8,8 +8,8 @@ export default defineConfig({
   plugins: [
     react(),
     replace({
-      'process.env.LOCAL_URL': JSON.stringify(process.env.LOCAL_URL),
-      'process.env.PROD_URL': JSON.stringify(process.env.PROD_URL),
+      'process.env.VITE_DEV_API_URL': JSON.stringify(process.env.VITE_DEV_API_URL),
+      'process.env.VITE_PROD_API_URL': JSON.stringify(process.env.VITE_PROD_API_URL),
       preventAssignment: true
     })
   ],
