@@ -12,14 +12,14 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
 
-      - name: Install and Build 🔧
+      - name: Installation and Build 🔧
         run: |
           npm install
           npm run build
         env:
           VITE_APP_URL: ${{ secrets.VITE_APP_URL }}
 
-      - name: Deploy 🚀
+      - name: Deployment 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: gh-pages
