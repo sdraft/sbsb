@@ -24,7 +24,6 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "VITE_DEV_API_URL=${{ secrets.VITE_DEV_API_URL }}" >> $GITHUB_ENV
           echo "VITE_PROD_API_URL=${{ secrets.VITE_PROD_API_URL }}" >> $GITHUB_ENV
 
       - name: Build project
