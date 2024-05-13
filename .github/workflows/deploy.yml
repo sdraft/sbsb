@@ -22,6 +22,11 @@ jobs:
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
+      - name: Set environment variables
+        run: |
+          echo "VITE_DEV_API_URL=${{ secrets.VITE_DEV_API_URL }}" >> $GITHUB_ENV
+          echo "VITE_PROD_API_URL=${{ secrets.VITE_PROD_API_URL }}" >> $GITHUB_ENV
+
       - name: Build project
         run: npm run build
 
@@ -49,8 +54,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-
-      - name: Set environment variables
-        run: |
-          echo "VITE_DEV_API_URL=${{ secrets.VITE_DEV_API_URL }}" >> $GITHUB_ENV
-          echo "VITE_PROD_API_URL=${{ secrets.VITE_PROD_API_URL }}" >> $GITHUB_ENV
